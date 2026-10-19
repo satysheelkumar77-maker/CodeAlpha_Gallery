@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Stylish Gallery</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="app-header">
+  <div class="eyebrow-row">
+    <div class="brand-block">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <h1>Stylish <em>Gallery</em></h1>
+    </div>
+    <label class="search-box" for="gallerySearch">
+      <span aria-hidden="true">&#128269;</span>
+      <input id="gallerySearch" type="search" placeholder="Search your photos and videos" autocomplete="off">
+    </label>
+    <div class="header-actions">
+      <span class="count" id="countLabel"></span>
+      <div class="more-menu-wrap">
+        <button class="more-menu-trigger" id="moreMenuTrigger" type="button" aria-label="Open options" aria-haspopup="menu" aria-expanded="false">&#8942;</button>
+        <div class="more-menu" id="moreMenu" role="menu" hidden>
+          <button type="button" role="menuitem" data-action="new-folder">New folder</button>
+          <button type="button" role="menuitem" data-action="settings">Settings</button>
+          <span class="menu-divider" aria-hidden="true"></span>
+          <button type="button" role="menuitem" data-action="bin">Bin</button>
+          <button type="button" role="menuitem" data-action="favorites">Favorites</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="uploader">
+    <label class="upload-btn" for="fileInput">
+      <span class="upload-symbol photo-symbol" aria-hidden="true">&#128247;</span>
+      <span>Add photos</span>
+      <input type="file" id="fileInput" accept="image/*" multiple hidden>
+    </label>
+    <label class="upload-btn upload-video-btn" for="videoInput">
+      <span class="upload-symbol video-symbol" aria-hidden="true">&#127909;</span>
+      <span>Add videos</span>
+      <input type="file" id="videoInput" accept="video/*" multiple hidden>
+    </label>
+    <label class="upload-select-label" for="categorySelect">
+      File under
+      <select id="categorySelect"></select>
+    </label>
+  </div>
+</header>
+
+<div class="workspace-layout">
+  <aside class="sidebar" aria-label="Library navigation">
+    <nav class="filters" id="filters" aria-label="Filter by series"></nav>
+    <button class="empty-bin-btn" id="emptyBin" type="button" hidden>Empty bin</button>
+  </aside>
+
+  <main>
+    <div class="collection-heading">
+      <div>
+        <p class="section-kicker">YOUR COLLECTION</p>
+        <h2 class="display">A life in frames<span>.</span></h2>
+      </div>
+      <p class="collection-note">Photographs, moving moments, and everything worth keeping.</p>
+    </div>
+    <div class="folder-context-menu" id="folderContextMenu" role="menu" hidden>
+      <button type="button" role="menuitem" id="deleteFolderAction">Delete folder</button>
+    </div>
+    <div class="gallery" id="gallery"></div>
+    <p class="empty-state" id="emptyState" hidden></p>
+  </main>
+</div>
+
+<footer>Stylish Gallery &middot; use ← → to browse, Esc to close</footer>
+
+<dialog class="settings-dialog" id="settingsDialog" aria-labelledby="settingsTitle">
+  <div class="settings-heading">
+    <h2 class="display" id="settingsTitle">Settings</h2>
+    <button class="settings-close" id="settingsClose" type="button" aria-label="Close settings">&times;</button>
+  </div>
+  <div class="settings-row">
+    <span>Appearance</span>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to light mode" aria-pressed="false">
+      <span aria-hidden="true">&#9788;</span>
+      <span id="themeLabel">Light mode</span>
+    </button>
+  </div>
+  <fieldset class="settings-option">
+    <legend>Background color</legend>
+    <div class="color-options" role="radiogroup" aria-label="Background color">
+      <label class="color-choice">
+        <input type="radio" name="backgroundColor" value="sky">
+        <span class="color-swatch swatch-sky" aria-hidden="true"></span>
+        <span>Sky</span>
+      </label>
+      <label class="color-choice">
+        <input type="radio" name="backgroundColor" value="sage">
+        <span class="color-swatch swatch-sage" aria-hidden="true"></span>
+        <span>Sage</span>
+      </label>
+      <label class="color-choice">
+        <input type="radio" name="backgroundColor" value="rose">
+        <span class="color-swatch swatch-rose" aria-hidden="true"></span>
+        <span>Rose</span>
+      </label>
+    </div>
+  </fieldset>
+  <div class="settings-row settings-weight-row">
+    <label for="fontWeightSelect">Font weight</label>
+    <select id="fontWeightSelect">
+      <option value="300">Light</option>
+      <option value="400">Regular</option>
+      <option value="500">Medium</option>
+      <option value="600">Bold</option>
+    </select>
+  </div>
+</dialog>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Media viewer">
+  <div class="lb-stage">
+    <div class="lb-media-frame">
+      <img class="lb-art" id="lbArt" alt="">
+      <video class="lb-art lb-video" id="lbVideo" controls playsinline hidden></video>
+      <button class="media-back-button" id="lbBack" type="button" aria-label="Back to gallery" title="Back to gallery"><span aria-hidden="true">&#8592;</span><span>Back</span></button>
+      <button class="media-side-arrow media-side-prev" id="lbPrev" type="button" aria-label="Previous item" title="Previous item">&#8592;</button>
+      <button class="media-side-arrow media-side-next" id="lbNext" type="button" aria-label="Next item" title="Next item">&#8594;</button>
+    </div>
+
+    <div class="lb-sequence-controls" aria-label="Media navigation and actions">
+      <span class="sequence-count" id="lbSequence" aria-live="polite"></span>
+    </div>
+    <div class="lb-caption">
+      <div class="lb-caption-info" hidden>
+        <div class="lb-title display" id="lbTitle"></div>
+        <div class="lb-meta" id="lbMeta"></div>
+      </div>
+      <div class="lb-toolbar" aria-label="Media actions">
+        <button class="icon-btn" id="lbFavorite" type="button" aria-pressed="false" aria-label="Add to favorites" title="Favorite"><span class="action-icon" aria-hidden="true">&#9825;</span><span class="action-label">Favorite</span></button>
+        <button class="icon-btn" id="lbDetailsBtn" type="button" aria-pressed="false" aria-label="Show details" title="Details"><span class="action-icon" aria-hidden="true">&#x2139;</span><span class="action-label">Details</span></button>
+        <button class="icon-btn" id="lbRename" type="button" aria-label="Rename item" title="Rename"><span class="action-icon" aria-hidden="true">&#9998;</span><span class="action-label">Rename</span></button>
+        <button class="icon-btn" id="lbFullscreen" type="button" aria-label="View fullscreen" title="Zoom"><span class="action-icon" aria-hidden="true">&#x26F6;</span><span class="action-label">Zoom</span></button>
+        <button class="icon-btn lb-bin-btn" id="lbDelete" type="button" aria-label="Move to bin" title="Move to bin"><span class="action-icon" aria-hidden="true">&#x1F5D1;&#xFE0E;</span><span class="action-label">Bin</span></button>
+      </div>
+    </div>
+
+  </div>
+  <dl class="lb-details" id="lbDetailsPanel" hidden></dl>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
